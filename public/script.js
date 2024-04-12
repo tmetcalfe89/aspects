@@ -1,6 +1,6 @@
 import getPlantUmlUrl from "./plantuml.js";
 
-async function getElements() {
+async function getAspects() {
   const response = await fetch("/api/aspects");
   return response.json();
 }
@@ -10,12 +10,12 @@ async function getMixes() {
   return response.json();
 }
 
-async function addElement(data) {
+async function addAspect(data) {
   await fetch("/api/aspects", {
     method: "POST",
     body: data
   });
-  renderElements();
+  renderAspects();
 }
 
 function getPageElements() {
@@ -26,25 +26,25 @@ function getPageElements() {
   });
 }
 
-const { elementForm, elementsShowcase, inputElements, outputElements, imgInput, nameInput, clearButton } = getPageElements();
-elementForm.addEventListener("submit", (e) => {
+const { aspectForm, aspectsShowcase, inputAspects, outputAspects, imgInput, nameInput, clearButton } = getPageElements();
+aspectForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const form = e.target;
-  addElement(new FormData(form));
+  addAspect(new FormData(form));
   form.reset();
 });
 
-async function renderElements() {
-  const elements = await getElements();
-  elementsShowcase.innerHTML = "";
-  elements.forEach(({ name }) => {
-    const element = document.createElement("img");
-    element.src = `/imgs/${name}`;
-    element.dataset.name = name;
-    element.title = name;
-    element.draggable = true;
-    element.addEventListener("dragstart", onDragStart);
-    elementsShowcase.appendChild(element);
+async function renderAspects() {
+  const aspects = await getAspects();
+  aspectsShowcase.innerHTML = "";
+  aspects.forEach(({ name }) => {
+    const aspect = document.createElement("img");
+    aspect.src = `/imgs/${name}`;
+    aspect.dataset.name = name;
+    aspect.title = name;
+    aspect.draggable = true;
+    aspect.addEventListener("dragstart", onDragStart);
+    aspectsShowcase.appendChild(aspect);
   });
 
   updateDiagram();
@@ -65,9 +65,9 @@ async function updateDiagram() {
   document.getElementById("diagram").src = getPlantUmlUrl(umlData);
 }
 
-renderElements();
+renderAspects();
 
-const mixerHolders = [inputElements, outputElements];
+const mixerHolders = [inputAspects, outputAspects];
 mixerHolders.forEach((el) => el.addEventListener("dragover", onDragOver));
 
 mixerHolders.forEach((el) => el.addEventListener("drop", onDrop));
@@ -82,17 +82,17 @@ async function onDrop(e) {
 
   const inputs = collectInputs();
   const outputs = collectOutputs();
-  if (e.target === outputElements) {
+  if (e.target === outputAspects) {
     if (inputs.length && outputs.length) {
       pushOutputs();
     }
-  } else if (e.target === inputElements) {
+  } else if (e.target === inputAspects) {
     refreshOutputs();
   }
 }
 
 async function refreshOutputs() {
-  outputElements.innerHTML = "";
+  outputAspects.innerHTML = "";
   const inputs = collectInputs();
   if (inputs.length) {
     const response = await fetch(`/api/mixes/${inputs.sort().join(",")}`);
@@ -101,7 +101,7 @@ async function refreshOutputs() {
       const copyTarget = document.querySelector(`[data-name="${name}"]`);
       const clone = copyTarget.cloneNode(true);
       clone.addEventListener("click", removeTarget);
-      outputElements.appendChild(clone);
+      outputAspects.appendChild(clone);
     });
   }
 }
@@ -123,15 +123,15 @@ async function pushOutputs() {
 }
 
 function collectInputs() {
-  return [...document.querySelectorAll(`#inputElements [data-name]`)].map(e => e.dataset.name);
+  return [...inputAspects.querySelectorAll(`[data-name]`)].map(e => e.dataset.name);
 }
 
 function collectOutputs() {
-  return [...document.querySelectorAll(`#outputElements [data-name]`)].map(e => e.dataset.name);
+  return [...outputAspects.querySelectorAll(`[data-name]`)].map(e => e.dataset.name);
 }
 
 function removeTarget(e) {
-  const refresh = e.target.parentNode === inputElements;
+  const refresh = e.target.parentNode === inputAspects;
   e.target.remove();
   if (refresh) {
     refreshOutputs();
@@ -156,6 +156,6 @@ imgInput.addEventListener("change", (e) => {
 });
 
 clearButton.addEventListener("click", () => {
-  inputElements.innerHTML = "";
-  outputElements.innerHTML = "";
+  inputAspects.innerHTML = "";
+  outputAspects.innerHTML = "";
 });

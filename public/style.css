@@ -16,7 +16,7 @@ body > * {
   min-width: 0;
 }
 
-#elementsShowcase {
+#aspectsShowcase {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
@@ -48,8 +48,8 @@ img:not(#diagram) {
   flex-direction: column;
 }
 
-#inputElements,
-#outputElements {
+#inputAspects,
+#outputAspects {
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.25);
   gap: 5px;
