@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/script.js" defer type="module"></script>
+    <script src="/clickers.js" defer></script>
+    <title>Aspects</title>
+  </head>
+  <body>
+    <div>
+      <h1>Add Element</h1>
+      <form id="elementForm">
+        <input placeholder="name" name="name" id="nameInput" />
+        <button data-clicker="#imgInput" type="button">File</button>
+        <input type="file" name="img" id="imgInput" style="display: none" />
+        <button>Add</button>
+      </form>
+
+      <h1>Elements</h1>
+      <div id="elementsShowcase"></div>
+
+      <div id="mixer">
+        <div>
+          <h1>Input Elements</h1>
+          <div id="inputElements"></div>
+        </div>
+        <div>
+          <h1>Output Elements</h1>
+          <div id="outputElements"></div>
+        </div>
+      </div>
+      <button id="clearButton">Clear</button>
+    </div>
+    <div>
+      <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+        <img id="diagram" />
+      </div>
+    </div>
+  </body>
+</html>
