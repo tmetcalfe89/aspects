@@ -26,7 +26,7 @@ function getPageElements() {
   });
 }
 
-const { aspectForm, aspectsShowcase, inputAspects, outputAspects, imgInput, nameInput, clearButton } = getPageElements();
+const { aspectForm, aspectsShowcase, inputAspects, outputAspects, imgInput, nameInput, clearButton, diagram, diagramLink } = getPageElements();
 aspectForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const form = e.target;
@@ -62,7 +62,9 @@ async function updateDiagram() {
   ${mixes.map(({ inputs, outputs, color }) => outputs.map((output) => `${inputs.join("")} 0--> ${output} #${color.slice(1)};text:${color.slice(1)} : ${output}`).join("\n")).join("\n")}
   @enduml
   `;
-  document.getElementById("diagram").src = getPlantUmlUrl(umlData);
+  const plantUmlUrl = getPlantUmlUrl(umlData);
+  diagram.src = plantUmlUrl;
+  diagramLink.href = plantUmlUrl;
 }
 
 renderAspects();
