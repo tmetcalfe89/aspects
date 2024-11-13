@@ -8,6 +8,9 @@ Aspects is a MEN stack (MongoDB, Express, NodeJS) application that allows the us
 
 For example, we could add an Air aspect and an Earth aspect, then say that those two are an input for a Dust aspect.
 
+After using it for long enough, you get a well-meaning soup of connected items that looks something like this:
+![image](https://github.com/user-attachments/assets/e58e83a1-1d78-4de2-b58e-aa411fd080a9)
+
 ## How do I use it?
 
 ### Starting the server
