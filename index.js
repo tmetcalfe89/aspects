@@ -8,6 +8,9 @@ const mongoose = require("mongoose");
 const uniqolor = require("uniqolor");
 
 const { PORT = 3000, MONGO_URI } = process.env;
+if (!MONGO_URI) {
+  throw new Error("Please provide a MONGO_URI in your .env file.")
+}
 
 const app = express();
 const storage = multer.memoryStorage();
@@ -94,5 +97,7 @@ app.post("/api/mixes", async (req, res) => {
   }
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.info(`Aspects server listening on port ${PORT} at http://localhost:${PORT}`)
+});
 mongoose.connect(MONGO_URI);
